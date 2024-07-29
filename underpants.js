@@ -176,7 +176,6 @@ return []
 //rray.slice(-number) returns the last number elements of the array
 return array.slice(-number)
 }
-
 /** _.indexOf
 * Arguments:
 *   1) An array
