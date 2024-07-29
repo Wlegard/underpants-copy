@@ -20,7 +20,18 @@ var _ = {};
 *   _.identity(5) === 5
 *   _.identity({a: "b"}) === {a: "b"}
 */
+//
 
+/**
+ * I: The function has one value as the parameter
+ * O: the function returns an input value that is not changed
+ * C:N/A
+ * E:N/A
+ */
+_.identity = function(value){
+    //return unchanged
+    return value;
+};
 
 /** _.typeOf
 * Arguments:
@@ -41,6 +52,30 @@ var _ = {};
 * _.typeOf("javascript") -> "string"
 * _.typeOf([1,2,3]) -> "array"
 */
+/**
+ * I: function has one parameter called value
+ * O: return the type of values as a string
+ * C: use typeOf and if statement
+ * E:N/A
+ *  
+ */
+
+_.typeOf = function(value){
+if(value === null) {
+  return 'null';
+}
+if (Array.isArray(value)) {
+  return 'array';
+}
+if (typeof value === 'function') {
+  return 'function';
+}
+if (typeof value === 'object') {
+  return 'object';
+}
+return typeof value;
+}
+
 
 
 /** _.first
@@ -60,6 +95,38 @@ var _ = {};
 *   _.first(["a", "b", "c"], 1) -> "a"
 *   _.first(["a", "b", "c"], 2) -> ["a", "b"]
 */
+/**
+ * I:function has two parameters array and number
+ * O: return first number
+ * C:use  if statement, typeOf
+ * E:N/A
+ */
+_.first = function(array, number){
+    if (!Array.isArray(array)) {
+        return [];
+      }
+      
+      // Check if the second argument is a valid number
+      if (typeof number !== 'number' || isNaN(number)) {
+        // If no number is given or it's not a valid number, return the first element
+        return array[0];
+      }
+  
+      // Handle cases with a valid number
+      // If number is negative, return an empty array
+      if (number < 0) {
+        return [];
+      }
+  
+      // If number is greater than array length, return the entire array
+      if (number > array.length) {
+        return array;
+      }
+  
+      // Return the first `number` elements of the array
+      return array.slice(0, number);
+    
+}
 
 
 /** _.last
@@ -79,7 +146,36 @@ var _ = {};
 *   _.last(["a", "b", "c"], 1) -> "c"
 *   _.last(["a", "b", "c"], 2) -> ["b", "c"]
 */
-
+/**
+ * I:function has two parameters array and number
+ * O: return last number
+ * C:use  if statement, typeOf
+ * E:
+ */
+_.last = function(array, number){
+  //If <array> is not an array,
+  if (!Array.isArray(array)){
+    //return empty array literal
+  return [];
+}
+//If <number> is not given or not a number
+if (typeof number !== 'number' || isNaN(number)){
+  //return just the last element in <array>.
+return array[array.length - 1];
+}
+//if <number> is negative
+if (number < 0){
+  //return empty array literal
+return []
+//if <number> is greater than <array>.length
+}if(number > array.length){
+  return array;
+  // return the whol array
+}
+//return the last <number> items of <array>
+//rray.slice(-number) returns the last number elements of the array
+return array.slice(-number)
+}
 
 /** _.indexOf
 * Arguments:
@@ -96,6 +192,24 @@ var _ = {};
 *   _.indexOf(["a","b","c"], "c") -> 2
 *   _.indexOf(["a","b","c"], "d") -> -1
 */
+/**
+ * I: function has parameter of array and value
+ * O: return the array's index or -1
+ * C: use for loop
+ * E: N/A
+ */
+_.indexOf = function(array, value){
+  //create a for loop to iterate over array 
+  for(var i = 0; i < array.length; i++){
+    // if the array at the index strictly compared to the value is true 
+    if(array[i] === value)
+    // return the index 
+    return i;
+  }
+  // -1 if otherwise 
+  return -1;
+
+  }
 
 
 /** _.contains
