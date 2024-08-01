@@ -28,9 +28,9 @@ var _ = {};
  * C:N/A
  * E:N/A
  */
-_.identity = function(value){
-    //return unchanged
-    return value;
+_.identity = function (value) {
+  //return unchanged
+  return value;
 };
 
 /** _.typeOf
@@ -60,20 +60,20 @@ _.identity = function(value){
  *  
  */
 
-_.typeOf = function(value){
-if(value === null) {
-  return 'null';
-}
-if (Array.isArray(value)) {
-  return 'array';
-}
-if (typeof value === 'function') {
-  return 'function';
-}
-if (typeof value === 'object') {
-  return 'object';
-}
-return typeof value;
+_.typeOf = function (value) {
+  if (value === null) {
+    return 'null';
+  }
+  if (Array.isArray(value)) {
+    return 'array';
+  }
+  if (typeof value === 'function') {
+    return 'function';
+  }
+  if (typeof value === 'object') {
+    return 'object';
+  }
+  return typeof value;
 }
 
 
@@ -101,31 +101,31 @@ return typeof value;
  * C:use  if statement, typeOf
  * E:N/A
  */
-_.first = function(array, number){
-    if (!Array.isArray(array)) {
-        return [];
-      }
-      
-      // Check if the second argument is a valid number
-      if (typeof number !== 'number' || isNaN(number)) {
-        // If no number is given or it's not a valid number, return the first element
-        return array[0];
-      }
-  
-      // Handle cases with a valid number
-      // If number is negative, return an empty array
-      if (number < 0) {
-        return [];
-      }
-  
-      // If number is greater than array length, return the entire array
-      if (number > array.length) {
-        return array;
-      }
-  
-      // Return the first `number` elements of the array
-      return array.slice(0, number);
-    
+_.first = function (array, number) {
+  if (!Array.isArray(array)) {
+    return [];
+  }
+
+  // Check if the second argument is a valid number
+  if (typeof number !== 'number' || isNaN(number)) {
+    // If no number is given or it's not a valid number, return the first element
+    return array[0];
+  }
+
+  // Handle cases with a valid number
+  // If number is negative, return an empty array
+  if (number < 0) {
+    return [];
+  }
+
+  // If number is greater than array length, return the entire array
+  if (number > array.length) {
+    return array;
+  }
+
+  // Return the first `number` elements of the array
+  return array.slice(0, number);
+
 }
 
 
@@ -152,29 +152,29 @@ _.first = function(array, number){
  * C:use  if statement, typeOf
  * E:
  */
-_.last = function(array, number){
+_.last = function (array, number) {
   //If <array> is not an array,
-  if (!Array.isArray(array)){
+  if (!Array.isArray(array)) {
     //return empty array literal
-  return [];
-}
-//If <number> is not given or not a number
-if (typeof number !== 'number' || isNaN(number)){
-  //return just the last element in <array>.
-return array[array.length - 1];
-}
-//if <number> is negative
-if (number < 0){
-  //return empty array literal
-return []
-//if <number> is greater than <array>.length
-}if(number > array.length){
-  return array;
-  // return the whol array
-}
-//return the last <number> items of <array>
-//rray.slice(-number) returns the last number elements of the array
-return array.slice(-number)
+    return [];
+  }
+  //If <number> is not given or not a number
+  if (typeof number !== 'number' || isNaN(number)) {
+    //return just the last element in <array>.
+    return array[array.length - 1];
+  }
+  //if <number> is negative
+  if (number < 0) {
+    //return empty array literal
+    return []
+    //if <number> is greater than <array>.length
+  } if (number > array.length) {
+    return array;
+    // return the whol array
+  }
+  //return the last <number> items of <array>
+  //array.slice(-number) returns the last number elements of the array
+  return array.slice(-number)
 }
 /** _.indexOf
 * Arguments:
@@ -197,18 +197,18 @@ return array.slice(-number)
  * C: use for loop
  * E: N/A
  */
-_.indexOf = function(array, value){
+_.indexOf = function (array, value) {
   //create a for loop to iterate over array 
-  for(var i = 0; i < array.length; i++){
+  for (var i = 0; i < array.length; i++) {
     // if the array at the index strictly compared to the value is true 
-    if(array[i] === value)
-    // return the index 
-    return i;
+    if (array[i] === value)
+      // return the index 
+      return i;
   }
   // -1 if otherwise 
   return -1;
 
-  }
+}
 
 
 /** _.contains
@@ -225,25 +225,44 @@ _.indexOf = function(array, value){
 * Examples:
 *   _.contains([1,"two", 3.14], "two") -> true
 */
+_.contains = function (array, value) {
+  return value === undefined ? false : array.includes(value) ? true : false;
 
+}
 
-/** _.each
-* Arguments:
-*   1) A collection
-*   2) A function
-* Objectives:
-*   1) if <collection> is an array, call <function> once for each element
-*      with the arguments:
-*         the element, it's index, <collection>
-*   2) if <collection> is an object, call <function> once for each property
-*      with the arguments:
-*         the property's value, it's key, <collection>
-* Examples:
-*   _.each(["a","b","c"], function(e,i,a){ console.log(e)});
-*      -> should log "a" "b" "c" to the console
-*/
+  /** _.each
+  * Arguments:
+  *   1) A collection
+  *   2) A function
+  * Objectives:
+  *   1) if <collection> is an array, call <function> once for each element
+  *      with the arguments:
+  *         the element, it's index, <collection>
+  *   2) if <collection> is an object, call <function> once for each property
+  *      with the arguments:
+  *         the property's value, it's key, <collection>
+  * Examples:
+  *   _.each(["a","b","c"], function(e,i,a){ console.log(e)});
+  *      -> should log "a" "b" "c" to the console
+  */
+  _.each = function(collect, func) {
+    // collect is an array
+    if (Array.isArray(collect)) {
+      //create for loop to iterate through array
+      for (var i = 0; i < collect.length; i++) {
+        // call func with collect at each index , indedx, and collect
+        func(collect[i], i, collect)
+      }
+      // if typeof collect is an object and not null
+    }else if (typeof collect === 'object' && collect !== null) {
+      // create for in loop
+      for (var key in collect) {
+        // func collect at each key, key, and collect
+        func(collect[key], key, collect)
 
-
+      }
+    }
+  };
 /** _.unique
 * Arguments:
 *   1) An array
@@ -253,8 +272,13 @@ _.indexOf = function(array, value){
 * Examples:
 *   _.unique([1,2,2,4,5,6,5,2]) -> [1,2,4,5,6]
 */
-
-
+_.unique = function indexof(array){
+var newArray = [];
+for(var i = 0; i < array.length; i++)
+if (i === array[i]){
+newArray.push(array[i]);
+}
+}
 /** _.filter
 * Arguments:
 *   1) An array
@@ -270,6 +294,8 @@ _.indexOf = function(array, value){
 * Extra Credit:
 *   use _.each in your implementation
 */
+_.filter = function(array, func){
+}
 
 
 /** _.reject
@@ -418,8 +444,8 @@ _.indexOf = function(array, value){
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-if((typeof process !== 'undefined') &&
-   (typeof process.versions.node !== 'undefined')) {
-    // here, export any references you need for tests //
-    module.exports = _;
+if ((typeof process !== 'undefined') &&
+  (typeof process.versions.node !== 'undefined')) {
+  // here, export any references you need for tests //
+  module.exports = _;
 }
