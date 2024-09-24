@@ -20,7 +20,18 @@ var _ = {};
 *   _.identity(5) === 5
 *   _.identity({a: "b"}) === {a: "b"}
 */
+//
 
+/**
+ * I: The function has one value as the parameter
+ * O: the function returns an input value that is not changed
+ * C:N/A
+ * E:N/A
+ */
+_.identity = function (value) {
+  //return unchanged
+  return value;
+};
 
 /** _.typeOf
 * Arguments:
@@ -41,7 +52,51 @@ var _ = {};
 * _.typeOf("javascript") -> "string"
 * _.typeOf([1,2,3]) -> "array"
 */
+/**
+ * I: function has one parameter called value
+ * O: return the type of values as a string
+ * C: use typeOf and if statement
+ * E:N/A
+ *  
+ */
 
+_.typeOf = function (value) {
+
+  if(typeof value === 'string'){
+    return 'string'
+  }
+   
+  if(typeof value === 'object'){
+   if(value === null){
+    return 'null'
+   }
+    
+   if(Array.isArray(value)){
+      return 'array'
+   }
+      if (value instanceof Date){
+        return 'date'
+    }
+    return 'object'
+}
+   if(typeof value === 'undefined'){
+    return 'undefined'
+  }
+  if (typeof value === 'number'){
+    return 'number'
+  }
+  if(typeof value === 'boolean'){
+    return 'boolean'
+  }
+  
+  if(typeof value === 'function'){
+  
+
+    return 'function'
+  }
+  return unknown
+}
+  
 
 /** _.first
 * Arguments:
@@ -60,6 +115,27 @@ var _ = {};
 *   _.first(["a", "b", "c"], 1) -> "a"
 *   _.first(["a", "b", "c"], 2) -> ["a", "b"]
 */
+/**
+ * I:function has two parameters array and number
+ * O: return first number
+ * C:use  if statement, typeOf
+ * E:N/A
+ */
+_.first = function (array, number) {
+if(!Array.isArray(array)){
+  return [];
+}
+if(typeof number !== 'number'){
+  return array[0]
+}
+if( number < 0){
+  return [];
+}
+  if(number > array.length){
+return array;
+  }
+return array.slice(0, number);
+}
 
 
 /** _.last
@@ -79,8 +155,36 @@ var _ = {};
 *   _.last(["a", "b", "c"], 1) -> "c"
 *   _.last(["a", "b", "c"], 2) -> ["b", "c"]
 */
-
-
+/**
+ * I:function has two parameters array and number
+ * O: return last number
+ * C:use  if statement, typeOf
+ * E:
+ */
+_.last = function (array, number) {
+  //If <array> is not an array,
+  if (!Array.isArray(array)) {
+    //return empty array literal
+    return [];
+  }
+  //If <number> is not given or not a number
+  if (typeof number !== 'number') {
+    //return just the last element in <array>.
+    return array[array.length - 1];
+  }
+  //if <number> is negative
+  if (number < 0) {
+    //return empty array literal
+    return []
+    //if <number> is greater than <array>.length
+  } if (number > array.length) {
+    return array;
+    // return the whol array
+  }
+  //return the last <number> items of <array>
+  //array.slice(-number) returns the last number elements of the array
+  return array.slice(-number)
+}
 /** _.indexOf
 * Arguments:
 *   1) An array
@@ -96,6 +200,26 @@ var _ = {};
 *   _.indexOf(["a","b","c"], "c") -> 2
 *   _.indexOf(["a","b","c"], "d") -> -1
 */
+/**
+ * I: function has parameter of array and value
+ * O: return the array's index or -1
+ * C: use for loop
+ * E: N/A
+ */
+_.indexOf = function (array, value) {
+  if(!Array.isArray(array)){
+    return -1
+  }
+  for(let i = 0; i < array.length; i++){
+    if(array[i] === value){
+    return i
+    }
+
+    }
+    return -1
+
+
+}
 
 
 /** _.contains
@@ -112,25 +236,41 @@ var _ = {};
 * Examples:
 *   _.contains([1,"two", 3.14], "two") -> true
 */
+_.contains = function (array, value) {
+  if (value === undefined){
+    return false;
+  }
+return array.includes(value) ? true : false
 
+}
 
-/** _.each
-* Arguments:
-*   1) A collection
-*   2) A function
-* Objectives:
-*   1) if <collection> is an array, call <function> once for each element
-*      with the arguments:
-*         the element, it's index, <collection>
-*   2) if <collection> is an object, call <function> once for each property
-*      with the arguments:
-*         the property's value, it's key, <collection>
-* Examples:
-*   _.each(["a","b","c"], function(e,i,a){ console.log(e)});
-*      -> should log "a" "b" "c" to the console
-*/
+  /** _.each
+  * Arguments:
+  *   1) A collection
+  *   2) A function
+  * Objectives:
+  *   1) if <collection> is an array, call <function> once for each element
+  *      with the arguments:
+  *         the element, it's index, <collection>
+  *   2) if <collection> is an object, call <function> once for each property
+  *      with the arguments:
+  *         the property's value, it's key, <collection>
+  * Examples:
+  *   _.each(["a","b","c"], function(e,i,a){ console.log(e)});
+  *      -> should log "a" "b" "c" to the console
+  */
+  _.each = function(collect, func) {
+    // collect is an array
+      //create for loop to iterate through array
+        // call func with collect at each index , indedx, and collect
+      
+      // if typeof collect is an object and not null
+      // create for in loop
+        // func collect at each key, key, and collect
 
-
+      
+    
+    }
 /** _.unique
 * Arguments:
 *   1) An array
@@ -140,8 +280,21 @@ var _ = {};
 * Examples:
 *   _.unique([1,2,2,4,5,6,5,2]) -> [1,2,4,5,6]
 */
-
-
+// function with parameter array
+_.unique = function (array){
+//initialize 
+var newArray = [];
+      //create for loop to iterate through array
+for(var i = 0; i < array.length; i++){
+  //will check for duplicates. It will check the first index of new array and array at the index. -1 checks if array[i] is not already present in newArray.
+if (newArray.indexOf(array[i]) === -1){
+  //push array at each index into newArray
+newArray.push(array[i]);
+}
+}
+//return newArray
+return newArray
+}
 /** _.filter
 * Arguments:
 *   1) An array
@@ -155,8 +308,23 @@ var _ = {};
 * Examples:
 *   _.filter([1,2,3,4,5], function(x){return x%2 === 0}) -> [2,4]
 * Extra Credit:
-*   use _.each in your implementation
+*   use _.each in your implementation/
 */
+// function has two parameters array and func
+_.filter = function( array, func){
+  // create new array
+  var result = [];
+  //create for loop to iterate through array at each index
+  for(var i = 0; i < array.length; i++){
+    // func return true
+  if(func(array[i], i, array)){
+    // psuh array at each index into new array called result
+     result.push(array[i]);
+  }
+}
+//return result
+  return result;
+}
 
 
 /** _.reject
@@ -171,7 +339,20 @@ var _ = {};
 * Examples:
 *   _.reject([1,2,3,4,5], function(e){return e%2 === 0}) -> [1,3,5]
 */
-
+_.reject = function(array, func){
+  // create a new array
+  var result = [];
+  //create for loop to iterate through each index in the array
+  for(var i = 0; i < array.length; i++){
+    //if func is false
+    if(!func(array[i], i, array)){
+      //push array at each index into new array called result
+      result.push(array[i])
+    }
+  }
+  //return result
+  return result;
+}
 
 /** _.partition
 * Arguments:
@@ -191,6 +372,25 @@ var _ = {};
 *   }); -> [[2,4],[1,3,5]]
 }
 */
+// function that have an array and a func
+_.partition = function(array, func){
+  //create two new arrays named arrt and arrf
+  var arrt = [];
+  var arrf = [];
+  //create for loop to iterate through each index in the array
+  for(var i = 0; i < array.length; i++){
+    //An array that contains all the values for which <function> returned something truthy
+    if(func(array[i], i, array)){
+      //push array at each index into new array arrt (for true)
+      arrt.push(array[i]);
+        //push array at each index into new array arrf (for false)
+    }else arrf.push(array[i]);
+  }
+  //return array arrt and arrf
+  return [arrt, arrf]
+}
+
+
 
 
 /** _.map
@@ -208,8 +408,40 @@ var _ = {};
 * Examples:
 *   _.map([1,2,3,4], function(e){return e * 2}) -> [2,4,6,8]
 */
+/**I: function has parameters collect and func, call function for each element in collection passing the arguments
+ * O:return each function call in new array
+ * C: use a for loop and if statement
+ * E: n/a
+ */
+_.map = function(collection, func){
+  // intialize new array result with empty array literal
+  const output = []
 
 
+   
+  // if collect is an array
+  if(Array.isArray(collection,func)){
+    //create for loop to iterate through collect array
+    for(let i = 0; i < collection.length; i++){
+       // call function with element,s value, the index, and collect
+      // push the element;s value at each index into new array result
+      output.push((func(collection[i], i, collection)))
+    }
+      // if collect is an object
+    }else{
+      // create for in loop
+      for(let key in collection){
+        // call the function withhthe value, it's key, <collection>
+
+ // push the element's value at each key in the new array result
+  
+        output.push((func(collection[key], key, collection)))
+      }
+    }
+    //return output array
+   return output
+  
+}
 /** _.pluck
 * Arguments:
 *   1) An array of objects
@@ -220,6 +452,23 @@ var _ = {};
 * Examples:
 *   _.pluck([{a: "one"}, {a: "two"}], "a") -> ["one", "two"]
 */
+/**I: function has parameters array(of obj) and prop
+ * O:return return array containing the value of <property> for every element in <array>
+ * C: use _.map
+ * E: n/a
+ */
+//function has parameters array(of obj) and prop
+_.pluck = function(array, prop){
+// return array, invoke obj
+  return _.map(array, function(obj){
+    //value of <property> for every element in <array>
+return obj[prop];
+  });
+
+  
+  }
+
+
 
 
 /** _.every
@@ -242,6 +491,50 @@ var _ = {};
 *   _.every([2,4,6], function(e){return e % 2 === 0}) -> true
 *   _.every([1,2,3], function(e){return e % 2 === 0}) -> false
 */
+/*I: function has parameters collect and func, call function for each element in collection passing the arguments
+ * O:return return true if functions is provided, return false if not provided, if the return value of calling <function> for every element is true, return true
+*   3) If even one of them returns false, return false
+ * C: use a for loop and if else statement
+ * E: n/a
+ */
+//function has two parameters called collection and func
+_.every = function(collection , func){
+  if(typeof func !== 'function'){  
+      // func is a variable that holds a function. function hold one parameter value. callback funtion
+    func = function(value) {
+      // returns a boolean value truth
+      return !!value; 
+    }
+  }
+  // if collection is an array
+  if(Array.isArray(collection)){
+    //create for loop to iterate through collection array to each index
+  for(var i = 0; i < collection.length; i++){
+    //If the return value of calling <function> for every element is true, return true, If even one of them returns false, return false
+    if(!func(collection[i], i, collection)){
+      //return false
+    return false
+  }
+  }
+  // else if collection is an object
+  } else if(typeof collection === 'object' && collection !== null){
+    //create a for in loop
+    for(var key in collection){
+      //If the return value of calling <function> for every element is true, return true,If even one of them returns false, return false
+      if(!func(collection[key], key, collection)){
+        //return false
+  return false
+      }
+    }
+  
+  // all else
+  }else{
+    //return false
+    return false
+  }
+  //If <function> is not provided, return true if every element is truthy, otherwise return false
+  return true
+  }
 
 
 /** _.some
@@ -264,7 +557,44 @@ var _ = {};
 *   _.some([1,3,5], function(e){return e % 2 === 0}) -> false
 *   _.some([1,2,3], function(e){return e % 2 === 0}) -> true
 */
+//function has two parameters called collection and func
+_.some = function (collect, func){
+  // if function is not given
+  if(typeof func !== 'function'){
+    //function hold one parameter value. callback funtion
+  func = function(value){
+ // returns a boolean value false
+return !!value
+}
+}
+// if collect is an array
+if(Array.isArray(collect)){
+  //create for loop
+  for(var i = 0; i < collect.length; i++ ){
+  //If the return value of calling <function> for every element is true, return true, If even one of them returns false, return false
+  if(func(collect[i], i, collect)){
+    //return true
+    return true
+  }
+}
+  // else if collection is an object
+}else if (typeof collect === 'object' && collect === null){
+  //create for in loop
+for(key in collect){
+ //If the return value of calling <function> for every element is true, return true
+  if(func(collect[key], key, collect)){
+    //return true 
+return true
+  }
+}
 
+}else{
+  //return true
+  return true
+}
+// return false
+return false
+}
 
 /** _.reduce
 * Arguments:
@@ -284,10 +614,36 @@ var _ = {};
 * Examples:
 *   _.reduce([1,2,3], function(previousSum, currentValue, currentIndex){ return previousSum + currentValue }, 0) -> 6
 */
-
+_.reduce = function(array, func, seed){
+  //A variable output will  hold the  result of adding the func function to the elements of the array.
+  let output;
+  // If seed is undefined
+  if(seed === undefined){
+    //set output to the first element of the array at array[0]
+    output = array[0];
+    // creaete for loop to iterate through array
+    for(let i = 1; i < array.length; i++){
+      //apply the func function using the current value of output and the current element (array[i]) for each element in the array. 
+      output = func(output, array[i],i);
+    }
+  }else{
+    //If seed is provided, set output to this seed value.
+    output = seed;
+    //create for loop to iterate through array
+    for(let i = 0; i < array.length; i++){
+      //apply the func function using the current value of output and the current element (array[i]).
+      output = func(output, array[i], i);
+    }
+  }
+  // return output
+  return output
+  }
 
 /** _.extend
-* Arguments:
+* Arguments: output = seed;
+    for(let i = 0; i < array.length; i++){
+      output = func(output, array[i], i);
+    }
 *   1) An Object
 *   2) An Object
 *   ...Possibly more objects
@@ -300,13 +656,19 @@ var _ = {};
 *   _.extend(data, {b:"two"}); -> data now equals {a:"one",b:"two"}
 *   _.extend(data, {a:"two"}); -> data now equals {a:"two"}
 */
+// function has two paramaters or more. sources is used to collect all arguments after the first one (the target object) into an array. This allows the function to handle any number of source objects.
 
+_.extend = function(target, ...sources){
+  //Object.assign(target, ...sources) copies the properties from each source object to the target object. The properties are copied in the order they are passed, and later sources overwrite properties from earlier sources.
+  //Object.assign returns the target object, which has been updated with properties from the source objects.
+  return Object.assign(target, ...sources)
+}
 //////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-if((typeof process !== 'undefined') &&
-   (typeof process.versions.node !== 'undefined')) {
-    // here, export any references you need for tests //
-    module.exports = _;
+if ((typeof process !== 'undefined') &&
+  (typeof process.versions.node !== 'undefined')) {
+  // here, export any references you need for tests //
+  module.exports = _;
 }
