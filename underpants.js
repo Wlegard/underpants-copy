@@ -259,8 +259,20 @@ return array.includes(value) ? true : false
   *   _.each(["a","b","c"], function(e,i,a){ console.log(e)});
   *      -> should log "a" "b" "c" to the console
   */
-  _.each = function(collect, func) {
+  _.each = function(collection, func) {
     // collect is an array
+    if(Array.isArray(collection)){
+      for( var i = 0; i < collection.length; i ++){
+        func(collection[i],i, collection);
+      }
+  
+    }else if(typeof collection === 'object' && collection !== null){
+      for(var key in collection){
+        func(collection[key],key, collection);
+      }
+    }
+  }
+  
       //create for loop to iterate through array
         // call func with collect at each index , indedx, and collect
       
@@ -270,7 +282,7 @@ return array.includes(value) ? true : false
 
       
     
-    }
+    
 /** _.unique
 * Arguments:
 *   1) An array
@@ -282,19 +294,22 @@ return array.includes(value) ? true : false
 */
 // function with parameter array
 _.unique = function (array){
-//initialize 
-var newArray = [];
-      //create for loop to iterate through array
-for(var i = 0; i < array.length; i++){
-  //will check for duplicates. It will check the first index of new array and array at the index. -1 checks if array[i] is not already present in newArray.
-if (newArray.indexOf(array[i]) === -1){
-  //push array at each index into newArray
-newArray.push(array[i]);
+  var newArray = [];
+  for (var i = 0; i < array.length; i++){
+    if (newArray.indexOf(array[i]) === -1){
+    newArray.push(array[i])
+  }
 }
-}
-//return newArray
 return newArray
 }
+//initialize 
+      //create for loop to iterate through array
+  //will check for duplicates. It will check the first index of new array and array at the index. -1 checks if array[i] is not already present in newArray.
+  //push array at each index into newArray
+
+//return newArray
+
+
 /** _.filter
 * Arguments:
 *   1) An array
@@ -312,19 +327,23 @@ return newArray
 */
 // function has two parameters array and func
 _.filter = function( array, func){
-  // create new array
-  var result = [];
-  //create for loop to iterate through array at each index
-  for(var i = 0; i < array.length; i++){
-    // func return true
-  if(func(array[i], i, array)){
-    // psuh array at each index into new array called result
-     result.push(array[i]);
+  var output = [];
+  for (var i = 0; i < array.length; i++){
+    if(func(array[i], i, array)){
+      output.push(array[i]);
+    }
   }
+  return output;
 }
+  // create new array
+  //create for loop to iterate through array at each index
+    // func return true
+    // psuh array at each index into new array called result
+  
+
 //return result
-  return result;
-}
+   ;
+
 
 
 /** _.reject
@@ -340,17 +359,12 @@ _.filter = function( array, func){
 *   _.reject([1,2,3,4,5], function(e){return e%2 === 0}) -> [1,3,5]
 */
 _.reject = function(array, func){
-  // create a new array
   var result = [];
-  //create for loop to iterate through each index in the array
-  for(var i = 0; i < array.length; i++){
-    //if func is false
+  for (var i = 0; i < array.length; i++){
     if(!func(array[i], i, array)){
-      //push array at each index into new array called result
       result.push(array[i])
     }
   }
-  //return result
   return result;
 }
 
@@ -374,21 +388,27 @@ _.reject = function(array, func){
 */
 // function that have an array and a func
 _.partition = function(array, func){
-  //create two new arrays named arrt and arrf
-  var arrt = [];
-  var arrf = [];
-  //create for loop to iterate through each index in the array
+  var sub1 = [];
+  var sub2 = [];
   for(var i = 0; i < array.length; i++){
-    //An array that contains all the values for which <function> returned something truthy
     if(func(array[i], i, array)){
-      //push array at each index into new array arrt (for true)
-      arrt.push(array[i]);
-        //push array at each index into new array arrf (for false)
-    }else arrf.push(array[i]);
+      sub1.push(array[i])
+    }else{
+  sub2.push(array[i])
+    
   }
-  //return array arrt and arrf
-  return [arrt, arrf]
 }
+    return [sub1 , sub2]
+  }
+
+  //create two new arrays named arrt and arrf
+  //create for loop to iterate through each index in the array
+    //An array that contains all the values for which <function> returned something truthy
+      //push array at each index into new array arrt (for true)
+        //push array at each index into new array arrf (for false)
+  
+  //return array arrt and arrf
+
 
 
 
@@ -414,34 +434,42 @@ _.partition = function(array, func){
  * E: n/a
  */
 _.map = function(collection, func){
+  var output = [];
+  if(Array.isArray(collection)){
+    for (var i = 0; i < collection.length; i++){
+output.push(func(collection[i], i, collection))
+    }
+  }else{
+  //if(typeof collection === 'object' && collection !== null){
+  for(var key in collection){
+  output.push(func(collection[key], key, collection))
+  }
+  }
+
+  return output;
+}
+  
+
   // intialize new array result with empty array literal
-  const output = []
 
 
    
   // if collect is an array
-  if(Array.isArray(collection,func)){
     //create for loop to iterate through collect array
-    for(let i = 0; i < collection.length; i++){
        // call function with element,s value, the index, and collect
       // push the element;s value at each index into new array result
-      output.push((func(collection[i], i, collection)))
-    }
+    
       // if collect is an object
-    }else{
       // create for in loop
-      for(let key in collection){
         // call the function withhthe value, it's key, <collection>
 
  // push the element's value at each key in the new array result
   
-        output.push((func(collection[key], key, collection)))
-      }
-    }
+      
+      
     //return output array
-   return output
   
-}
+
 /** _.pluck
 * Arguments:
 *   1) An array of objects
@@ -458,14 +486,14 @@ _.map = function(collection, func){
  * E: n/a
  */
 //function has parameters array(of obj) and prop
-_.pluck = function(array, prop){
-// return array, invoke obj
-  return _.map(array, function(obj){
-    //value of <property> for every element in <array>
-return obj[prop];
-  });
-
+_.pluck = function( array, property){
+  return _.map(array, function(object){
+    return object[property]
+  })
   
+// return array, invoke obj
+    //value of <property> for every element in <array>
+
   }
 
 
@@ -499,44 +527,50 @@ return obj[prop];
  */
 //function has two parameters called collection and func
 _.every = function(collection , func){
-  if(typeof func !== 'function'){  
-      // func is a variable that holds a function. function hold one parameter value. callback funtion
-    func = function(value) {
-      // returns a boolean value truth
-      return !!value; 
-    }
-  }
-  // if collection is an array
+  
+  
   if(Array.isArray(collection)){
-    //create for loop to iterate through collection array to each index
-  for(var i = 0; i < collection.length; i++){
-    //If the return value of calling <function> for every element is true, return true, If even one of them returns false, return false
-    if(!func(collection[i], i, collection)){
-      //return false
-    return false
-  }
-  }
-  // else if collection is an object
-  } else if(typeof collection === 'object' && collection !== null){
-    //create a for in loop
-    for(var key in collection){
-      //If the return value of calling <function> for every element is true, return true,If even one of them returns false, return false
-      if(!func(collection[key], key, collection)){
-        //return false
-  return false
-      }
+  if(!func){
+    for (let i = 0; i <collection.length; i++){
+    if(!collection[i]){ // if no function is provided(not truthy)
+    return false  
     }
   
-  // all else
+    }
+  
+      return true
+  
   }else{
-    //return false
-    return false
-  }
-  //If <function> is not provided, return true if every element is truthy, otherwise return false
-  return true
+    for(let i = 0; i < collection.length; i++){
+      if(!func(collection[i], i, collection)){
+        return false
+      }
+    }
+    return true
   }
 
+  }else{ //if object
+if(!func){
+  for(var key in collection){
+if(!key){
+  return false
+}
+  }
+   // if no function is provided(not truthy)
+return true
+  
+}else{
+  for(var key in collection){
+    if(!func(collection[key], key, collection )){
+      return false
+    }
+    }
+  
 
+return true
+}
+  }
+}
 /** _.some
 * Arguments:
 *   1) A collection
@@ -558,43 +592,52 @@ _.every = function(collection , func){
 *   _.some([1,2,3], function(e){return e % 2 === 0}) -> true
 */
 //function has two parameters called collection and func
-_.some = function (collect, func){
-  // if function is not given
-  if(typeof func !== 'function'){
-    //function hold one parameter value. callback funtion
-  func = function(value){
- // returns a boolean value false
-return !!value
-}
-}
-// if collect is an array
-if(Array.isArray(collect)){
-  //create for loop
-  for(var i = 0; i < collect.length; i++ ){
-  //If the return value of calling <function> for every element is true, return true, If even one of them returns false, return false
-  if(func(collect[i], i, collect)){
-    //return true
-    return true
+_.some = function (collection, func){
+  if(Array.isArray(collection)){
+    if(func){
+    for(let i = 0; i < collection.length; i++){
+      if(func(collection[i], i, collection)){
+        return true
+
+      }
+    }
+  
+  return false
+  }else{ //if(!func){}
+for(let i = 0; i < collection.length; i ++){
+  if(!collection[i]){
+    return false
   }
 }
-  // else if collection is an object
-}else if (typeof collect === 'object' && collect === null){
-  //create for in loop
-for(key in collect){
- //If the return value of calling <function> for every element is true, return true
-  if(func(collect[key], key, collect)){
-    //return true 
 return true
   }
+  }else{//if object
+if(func){
+  for(var key in collection){
+    if(func(collection[key], key, collection)){
+      return true
+    }
+  }
+  return false
+}else{
+  if(!func){
+    for(var key in collection){
+      if(!key){
+        return false
+      }
+    }
+    return true
+  }
+
 }
 
-}else{
-  //return true
-  return true
+  }
+
+
+
+
 }
-// return false
-return false
-}
+
 
 /** _.reduce
 * Arguments:
@@ -614,31 +657,41 @@ return false
 * Examples:
 *   _.reduce([1,2,3], function(previousSum, currentValue, currentIndex){ return previousSum + currentValue }, 0) -> 6
 */
-_.reduce = function(array, func, seed){
-  //A variable output will  hold the  result of adding the func function to the elements of the array.
+_.reduce = function(array,func, seed){
   let output;
-  // If seed is undefined
+  //if seed did not provide value
   if(seed === undefined){
-    //set output to the first element of the array at array[0]
-    output = array[0];
-    // creaete for loop to iterate through array
-    for(let i = 1; i < array.length; i++){
-      //apply the func function using the current value of output and the current element (array[i]) for each element in the array. 
-      output = func(output, array[i],i);
+    // if seed is not given, seed value is the first item in array
+    output = array[0]
+    for(var i = 1; i < array.length; i++){
+      output =  func(output, array[i], i)
+                //result = seed/callback function
     }
   }else{
-    //If seed is provided, set output to this seed value.
     output = seed;
-    //create for loop to iterate through array
-    for(let i = 0; i < array.length; i++){
-      //apply the func function using the current value of output and the current element (array[i]).
-      output = func(output, array[i], i);
+    for(var i = 0; i < array.length; i++){
+      output =  func(output, array[i], i)
+                //result = seed/callback function
     }
-  }
-  // return output
-  return output
-  }
 
+  } 
+  return output;
+
+  }
+  
+
+  //A variable output will  hold the  result of adding the func function to the elements of the array.
+  // If seed is undefined
+    //set output to the first element of the array at array[0]
+    // creaete for loop to iterate through array
+      //apply the func function using the current value of output and the current element (array[i]) for each element in the array. 
+    
+    //If seed is provided, set output to this seed value.
+    //create for loop to iterate through array
+      //apply the func function using the current value of output and the current element (array[i]).
+    
+  // return output
+  
 /** _.extend
 * Arguments: output = seed;
     for(let i = 0; i < array.length; i++){
@@ -659,9 +712,9 @@ _.reduce = function(array, func, seed){
 // function has two paramaters or more. sources is used to collect all arguments after the first one (the target object) into an array. This allows the function to handle any number of source objects.
 
 _.extend = function(target, ...sources){
+  return Object.assign(target, ...sources)
   //Object.assign(target, ...sources) copies the properties from each source object to the target object. The properties are copied in the order they are passed, and later sources overwrite properties from earlier sources.
   //Object.assign returns the target object, which has been updated with properties from the source objects.
-  return Object.assign(target, ...sources)
 }
 //////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////
